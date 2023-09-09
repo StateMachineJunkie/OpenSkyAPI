@@ -1,2 +1,2 @@
 # OpenSkyAPI
-Swift wrapper for OpenSky Network API
+Swift wrapper for the OpenSky Network API
