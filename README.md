@@ -1,3 +1,2 @@
 # OpenSkyAPI
-
-A description of this package.
+Swift wrapper for the OpenSky Network API
