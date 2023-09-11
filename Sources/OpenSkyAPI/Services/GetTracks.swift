@@ -35,9 +35,8 @@ import Foundation
 //         flights endpoint for historical data.
 class GetTracks: OpenSkyService {
 
-    public var authentication: OpenSkyService.Authentication?
-    private var time: UInt
-	private var transponder: OpenSkyService.ICAO24
+    private let time: UInt
+	private let transponder: OpenSkyService.ICAO24
 
     init(for transponder: OpenSkyService.ICAO24, at time: UInt = 0) throws {
         self.transponder = transponder

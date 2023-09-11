@@ -18,9 +18,8 @@ import Foundation
 // - Note: The interval range must be less than or equal to thirty days and must be a non-zero value.
 class GetFlights: OpenSkyService {
 
-    public var authentication: OpenSkyService.Authentication?
-    private var timeInterval: ClosedRange<UInt>
-	private var transponders: [OpenSkyService.ICAO24]
+    private let timeInterval: ClosedRange<UInt>
+	private let transponders: [OpenSkyService.ICAO24]
 
     init(for transponders: [OpenSkyService.ICAO24], in timeInterval: ClosedRange<UInt>) throws {
         guard transponders.count > 0 else {

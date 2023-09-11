@@ -58,6 +58,8 @@ public class OpenSkyService: NSObject {
         URLSession(configuration: URLSessionConfiguration.ephemeral)
     }()
 
+    public var authentication: Authentication?
+
     internal func validateOpenSkyTimeInterval(_ timeInterval: ClosedRange<UInt>) throws {
         let delta = timeInterval.upperBound - timeInterval.lowerBound
         guard

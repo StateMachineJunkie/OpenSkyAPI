@@ -19,9 +19,8 @@ import Foundation
 // - Note: The interval range must be less than or equal to seven days.
 class GetArrivals: OpenSkyService {
 
-	private var airport: String
-    public var authentication: OpenSkyService.Authentication?
-    public var timeInterval: ClosedRange<UInt>
+	private let airport: String
+    private let timeInterval: ClosedRange<UInt>
 
     override var maxTimeInterval: UInt {
         60 * 60 * 24 * 7    // Override default with a value of 7 days for this interval.

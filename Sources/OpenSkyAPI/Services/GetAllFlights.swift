@@ -15,8 +15,7 @@ import Foundation
 // - Note: The interval range must be less than or equal to two hours.
 class GetAllFlights: OpenSkyService {
 
-    public var authentication: OpenSkyService.Authentication?
-    private var timeInterval: ClosedRange<UInt>
+    private let timeInterval: ClosedRange<UInt>
 
     init(within timeInterval: ClosedRange<UInt>) throws {
         self.timeInterval = timeInterval

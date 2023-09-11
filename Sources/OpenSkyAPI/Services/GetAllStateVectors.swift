@@ -24,7 +24,6 @@ import Foundation
 class GetAllStateVectors: OpenSkyService {
 
     public var area: OpenSkyService.WGS84Area?
-    public var authentication: OpenSkyService.Authentication?
     public var isIncludingCategory: Bool = false
     public var time: UInt?
     public var transponders: [OpenSkyService.ICAO24]?

@@ -22,11 +22,11 @@ import Foundation
 // - Returns: A `StateVectors` value, which can be empty if no results were found to match the provided parameters.
 class GetOwnStateVectors: OpenSkyService {
 
-    public var authentication: OpenSkyService.Authentication?
+    private let transponders: [OpenSkyService.ICAO24]
+
     public var isIncludingCategory: Bool = false
     public var serials: [Int]?
     public var time: UInt = UInt(Date().timeIntervalSince1970)
-    private var transponders: [OpenSkyService.ICAO24]
 
     init(with transponders: [OpenSkyService.ICAO24]) {
         self.transponders = transponders
@@ -35,7 +35,7 @@ class GetOwnStateVectors: OpenSkyService {
     func invoke() async throws -> OpenSkyService.StateVectors {
         var queryItems: [URLQueryItem] = transponders.queryItems(withKey: "icao24")
 
-        if let serials {
+        if let serials, serials.count > 0 {
             queryItems.append(contentsOf: serials.queryItems(withKey: "serials"))
         }
 

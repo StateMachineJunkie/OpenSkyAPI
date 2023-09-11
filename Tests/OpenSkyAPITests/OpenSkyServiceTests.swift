@@ -66,7 +66,7 @@ final class OpenSkyServiceTests: XCTestCase {
     ///
     /// - NOTE: This test can fail with a 404 from time to time based on the absence of real data.
     func test_getFlights() async throws {
-        // Fetch flights for the last two hours.
+        // Fetch flights for the last hour.
         let now = Date()
         let oneHourInterval: TimeInterval = 3_600
         let dateInterval = DateInterval(start: Date(timeInterval: -oneHourInterval, since: now), end: now)
