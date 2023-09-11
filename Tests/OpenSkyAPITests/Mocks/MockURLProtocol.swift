@@ -27,8 +27,8 @@ class MockURLProtocol: URLProtocol {
     }
 
     static func loadJSONResource(named: String) throws -> Data {
-        let bundle = Bundle(for: Self.self)
-        let url = bundle.url(forResource: named, withExtension: "json")!
+        // This code is intended to be run from a test-bundle in a Swift package.
+        let url = Bundle.module.url(forResource: named, withExtension: "json")!
         let data = try Data(contentsOf: url, options: .uncached)
         return data
     }

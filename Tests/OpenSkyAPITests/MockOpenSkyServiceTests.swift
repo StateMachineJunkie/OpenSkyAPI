@@ -6,7 +6,7 @@
 //
 
 import XCTest
-@testable import OpenSkyFlightTracker
+@testable import OpenSkyAPI
 
 final class MockOpenSkyServiceTests: XCTestCase {
 
@@ -86,7 +86,7 @@ final class MockOpenSkyServiceTests: XCTestCase {
         XCTAssertNil(state.squawk)
     }
 
-    func test_getAllStateVectors_with_multiple_transponder() async throws {
+    func test_getAllStateVectors_with_multiple_transponders() async throws {
         // Arrange
         MockURLProtocol.requestHandler = { request in
             let response = HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: "2.0", headerFields: nil)!

@@ -6,7 +6,7 @@
 //
 
 import XCTest
-@testable import OpenSkyFlightTracker
+@testable import OpenSkyAPI
 
 final class OpenSkyServiceTests: XCTestCase {
 
@@ -15,12 +15,12 @@ final class OpenSkyServiceTests: XCTestCase {
     // step due to the simplicity of the API. Thus, these tests are more of a demo than uni-tests; not the
     // intended use of XCTestCase but since it moves me forward, I'll take it.
 
+    // NOTE: These tests should not be run together with the MockOpenSkyServiceTests, if this constraint is not
+    //       followed, all of the OpenSkyServiceTests will fail. I believe it is an interaction with the URLProtocol
+    //       implementation and XCTest runtimes. If you run both suites individually, they should both pass.
+
     private let auth: OpenSkyService.Authentication? = {
-        if let username = API.username, let password = API.password {
-            let auth = OpenSkyService.Authentication(username: username, password: password)
-            return auth
-        }
-        return nil
+        return OpenSkyService.Authentication(username: "your-username", password: "your-password")
     }()
 
     override func setUpWithError() throws {
@@ -31,7 +31,7 @@ final class OpenSkyServiceTests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
-    func test_getAllStateVectors_with_time() async throws {
+    func test_getAllStateVectors() async throws {
         let service = GetAllStateVectors()
         let stateVectors = try await service.invoke()
         print("GetAllStateVectors returned \(stateVectors.states.count) states.")
@@ -62,6 +62,9 @@ final class OpenSkyServiceTests: XCTestCase {
         print("GetDepartures returned \(flights.count) flights.")
     }
 
+    /// Fetch fetch tracking information for flights that have taken off in the last hour.
+    ///
+    /// - NOTE: This test can fail with a 404 from time to time based on the absence of real data.
     func test_getFlights() async throws {
         // Fetch flights for the last two hours.
         let now = Date()

@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "41C9F1F5-84EF-4A85-AEE1-B25381C0EBB3",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : false
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "OpenSkyAPITests",
+        "name" : "OpenSkyAPITests"
+      }
+    }
+  ],
+  "version" : 1
+}
