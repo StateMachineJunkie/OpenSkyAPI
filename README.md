@@ -1,7 +1,7 @@
 # OpenSkyAPI
 Swift wrapper for the OpenSky Network API
 
-I'm working on an internal flight-tracking project and I needed access to a couple of existing public API to source the data for my app. This is the first of two. It provides the methods I need to access flight information for a given area and zero in on a given flight for detailed tracking.
+I'm working on an internal flight-tracking project and I needed access to a couple of existing public network API sets in order to source the data for my app. This is the first of two. It provides the methods I need to access flight information for a given area and zero in on a given flight for detailed tracking.
 
 This project demonstrates a few of useful features or facilities that I've never used before.
 
@@ -14,12 +14,13 @@ This project demonstrates a few of useful features or facilities that I've never
 [The documentation I followed in order to write this wrapper is found here.](https://openskynetwork.github.io/opensky-api/index.html)
 
 ## General Implementation Notes
-Nothing new or fancy about the wrappers themselves. I'm using `Codable` to define and interpret the data coming from the OpenSky Network API (ONA). Previous wrappers I've created in the past for other APIs provide interfaces implemented using closures or Combine publishers. This time I decided to use the `async` interface vended from `URLSession` as part of Swift  Concurrency.
+There is nothing new or fancy about the wrappers themselves. I'm using `Codable` to define and interpret the data coming from the OpenSky Network API (ONA). Previous wrappers that I've created in the past for other APIs provide interfaces implemented using closures or Combine publishers. This time I decided to use the `async` interface vended from `URLSession` as part of Swift Concurrency.
 
-Instead of having a single API object, which is what I did last time, this time I decided to user a service based approach, making each service vended from ONA a separate class with a base class for common implementation details.
+Instead of having a single API object, which is what I did last time, this time I decided to use a service based approach. Thus, making each individual API endpoint vended from ONA, a separate class with a common base implementation, as shown in the diagram below.
 
 ```mermaid
 classDiagram
+	direction RL
 	class OpenSkyService {
 		<<base class>>
         Authentication?: authentication
@@ -82,20 +83,21 @@ classDiagram
     GetTracks --|> OpenSkyService
 ```
 
-## Swift package resources, package unit-tests, and URLProtocol
-I have created specific mock-data resources and unit-tests intended to be run from the package. These allow me to make sure my decoding of the OpenSky API data is correct. I have two separate test classes. One for mock data (`MockOpenSkyServiceTests`) and one for running against the live service (`OpenSkyServiceTests`). The mock class utilizes a custom `URLProtocol` named `MockURLProtocol`, which provides the implementation needed to locate and load JSON files from the test bundle and return said data as the payload for network API requests through `URLSession`.
+## Mocking Data With URLProtocol
+In order to easily simulate and validate network payloads from ONA, I have created a mock implementation of the `URLProtocol` named `MockURLProtocol`, which provides the implementation needed to locate and load JSON files from the test bundle and return said data as the payload for network API requests through `URLSession`.
+
+## Bundling Resources and Unit-tests Within a Swift Package
+I have two separate test classes. One for mock data (`MockOpenSkyServiceTests`) and one for running against the live service (`OpenSkyServiceTests`). The mock class utilizes `MockURLProtocol`, described above. Both the resource files and the unit-tests that rely on them are stored in the test bundle defined by the package description, instead of the main bundle for the package.
 
 ### Problems
-There is an issue when running the unit test for both test classes in one testing session. I believe it has something to do with `URLProtocol` registration but I am not sure. When you try and run all of the tests from Xcode using the test button, the live tests all fail with JSON decoding exceptions. If you run each test class separately, there is no issue.
+There is an issue when running the unit test for both test classes in one testing session. I believe it has something to do with `URLProtocol` registration but I am not sure. When you try and run all of the tests from Xcode using the unit-test button in the Xcode UI, the live tests all fail with JSON decoding exceptions. If you run each of the two test class separately, there is no issue.
 
-From the command line, if you execute a `swift test` command, half the tests will fail presumably for the same reason. Since my code is working and my initial investigation for obvious
+From the command line, if you execute a `swift test` command, half the tests will fail presumably for the same reason. Since my code is working and the test cases do run successfully when run in separate sessions, I have not spent time trying to determine and remedy the root cause of the problem. The tests are written to be independent of each other and there is no shared state or data-store between the two classes. The only commonality is the shared runtime with URLSession.
 
 ## API Usage
 The APIs all optionally allow for authentication. Note that if you do not include authentication, the behavior and scope of the results will be affected. See the ONA documentation for details.
 
-In order to provide authentication you must have registered an account with ONA and have a valid *username* and *password*.
-
-There are other limitations to the API parameters such as limits to filtering data based on time. Instead of repeating those details here, please read the original ONA documentation.
+In order to provide authentication you must have registered an account with ONA and have a valid *username* and *password*. There are other limitations to the API parameters such as limits to filtering data based on time. Instead of repeating those details here, please read the original ONA documentation.
 
 ### Get AllFlights
 ```swift
@@ -210,10 +212,12 @@ service.authentication = Authentication(username: "Your username here",
 let tracks = try await service.invoke()
 ```
 
-## Leftovers
-When initially coding the *arrival* and *departure* API methods I noted that the only difference between both implementations was the binary decision on whether we wanted departure or arrival information. I had intended to refactor to a common implementation and include a boolean or enum to switch to change the URL path but did not get it done due to being a little busy trying to get the package based resource and unit-test stuff working. My fault for not writing it down at the time. I will add this code later.
+## TODO
+* I'm not a big fan of the way time is used and specified in ONA. After I put some mileage on this package, I should have some idea how best to make the use of time parameters more convenient and swifty.
 
-The only service that I have not tested is the `GetOwnStateVectors`. I need to learn a little bit more about the *serials* parameter and its proper meaning.
+* When initially coding the *arrival* and *departure* API methods I noted that the only difference between both implementations was the binary decision on whether we wanted departure or arrival information. I need to refactor to a common implementation and include a boolean or enum to switch or change the URL path.
 
+* The only service that I have not tested is the `GetOwnStateVectors`. I need to learn a little bit more about the *serials* parameter and its proper meaning in context. Then I will be in a better position to evaluate the behavior and responses generated by ONA for this particular service.
 
-
+## License
+OpenSkyAPI is released under an MIT license. See [LICENSE](https://github.com/StateMachineJunkie/OpenSkyAPI/blob/main/LICENSE) for more information.
