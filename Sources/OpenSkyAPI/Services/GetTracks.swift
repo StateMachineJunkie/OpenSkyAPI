@@ -38,12 +38,12 @@ public class GetTracks: OpenSkyService {
     private let time: UInt
 	private let transponder: OpenSkyService.ICAO24
 
-    init(for transponder: OpenSkyService.ICAO24, at time: UInt = 0) throws {
+    public init(for transponder: OpenSkyService.ICAO24, at time: UInt = 0) throws {
         self.transponder = transponder
         self.time = time
     }
 
-    func invoke() async throws -> OpenSkyService.Track {
+    public func invoke() async throws -> OpenSkyService.Track {
         let params: [String : Any] = [
             "icao24" : transponder.value,
             "time" : String(time)

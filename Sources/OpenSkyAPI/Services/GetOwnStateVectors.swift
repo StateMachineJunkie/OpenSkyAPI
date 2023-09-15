@@ -28,11 +28,11 @@ public class GetOwnStateVectors: OpenSkyService {
     public var serials: [Int]?
     public var time: UInt = UInt(Date().timeIntervalSince1970)
 
-    init(with transponders: [OpenSkyService.ICAO24]) {
+    public init(with transponders: [OpenSkyService.ICAO24]) {
         self.transponders = transponders
     }
 
-    func invoke() async throws -> OpenSkyService.StateVectors {
+    public func invoke() async throws -> OpenSkyService.StateVectors {
         var queryItems: [URLQueryItem] = transponders.queryItems(withKey: "icao24")
 
         if let serials, serials.count > 0 {

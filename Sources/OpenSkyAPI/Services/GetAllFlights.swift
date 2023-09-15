@@ -17,13 +17,13 @@ public class GetAllFlights: OpenSkyService {
 
     private let timeInterval: ClosedRange<UInt>
 
-    init(within timeInterval: ClosedRange<UInt>) throws {
+    public init(within timeInterval: ClosedRange<UInt>) throws {
         self.timeInterval = timeInterval
         super.init()
         try validateOpenSkyTimeInterval(timeInterval)
     }
 
-    func invoke() async throws -> [OpenSkyService.Flight] {
+    public func invoke() async throws -> [OpenSkyService.Flight] {
         let params: [String : Any] = [
             "begin" : String(timeInterval.lowerBound),
             "end" : String(timeInterval.upperBound)

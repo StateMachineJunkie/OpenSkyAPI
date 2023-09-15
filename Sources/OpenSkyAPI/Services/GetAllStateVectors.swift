@@ -28,7 +28,7 @@ public class GetAllStateVectors: OpenSkyService {
     public var time: UInt?
     public var transponders: [OpenSkyService.ICAO24]?
 
-    func invoke() async throws -> OpenSkyService.StateVectors {
+    public func invoke() async throws -> OpenSkyService.StateVectors {
         var queryItems: [URLQueryItem] = []
 
         if let transponders {

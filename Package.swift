@@ -6,7 +6,7 @@ import PackageDescription
 let package = Package(
     name: "OpenSkyAPI",
     platforms: [
-        .iOS(.v13), .macOS(.v13)
+        .iOS(.v16), .macOS(.v13)
     ],
     products: [
         .library(name: "OpenSkyAPI", targets: ["OpenSkyAPI"])

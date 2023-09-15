@@ -26,7 +26,7 @@ public class GetDepartures: OpenSkyService {
         60 * 60 * 24 * 7    // Override default with a value of 7 days for this interval.
     }
 
-    init(from airport: String, in timeInterval: ClosedRange<UInt>) throws {
+    public init(from airport: String, in timeInterval: ClosedRange<UInt>) throws {
         // TODO: Consider adding verification for the ICAO parameter
         self.airport = airport
         self.timeInterval = timeInterval
@@ -34,7 +34,7 @@ public class GetDepartures: OpenSkyService {
         try validateOpenSkyTimeInterval(timeInterval)
     }
 
-    func invoke() async throws -> [OpenSkyService.Flight] {
+    public func invoke() async throws -> [OpenSkyService.Flight] {
         let params: [String : Any] = [
             "airport" : airport,
             "begin" : String(timeInterval.lowerBound),

@@ -21,7 +21,7 @@ public class GetFlights: OpenSkyService {
     private let timeInterval: ClosedRange<UInt>
 	private let transponders: [OpenSkyService.ICAO24]
 
-    init(for transponders: [OpenSkyService.ICAO24], in timeInterval: ClosedRange<UInt>) throws {
+    public init(for transponders: [OpenSkyService.ICAO24], in timeInterval: ClosedRange<UInt>) throws {
         guard transponders.count > 0 else {
             throw OpenSkyService.Error.invalidTransponderParameter
         }
@@ -33,7 +33,7 @@ public class GetFlights: OpenSkyService {
         try validateOpenSkyTimeInterval(timeInterval)
     }
 
-    func invoke() async throws -> [OpenSkyService.Flight] {
+    public func invoke() async throws -> [OpenSkyService.Flight] {
         var queryItems: [URLQueryItem] = transponders.queryItems(withKey: "icao24")
         queryItems.append(URLQueryItem(name: "begin", value: String(timeInterval.lowerBound)))
         queryItems.append(URLQueryItem(name: "end", value: String(timeInterval.upperBound)))
