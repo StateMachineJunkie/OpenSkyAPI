@@ -150,5 +150,10 @@ extension OpenSkyService {
     public struct StateVectors: Decodable, Equatable, Hashable {
         let time: UInt  // The time that the state vectors in this response are associated with. Interval is [time-1, time].
         let states: [StateVector]
+
+        public init(time: UInt, states: [StateVector]) {
+            self.time = time
+            self.states = states
+        }
     }
 }
