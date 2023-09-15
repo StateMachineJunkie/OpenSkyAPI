@@ -9,7 +9,7 @@ import Foundation
 
 extension OpenSkyService {
 
-    struct StateVector: Hashable {
+    public struct StateVector: Hashable {
         enum PositionSource: Int, Codable {
             case adsb       = 0     // ADS-B
             case asterix    = 1     // ASTERIX
@@ -122,7 +122,7 @@ extension OpenSkyService.StateVector: Decodable {
         case category
     }
 
-    init(from decoder: Decoder) throws {
+    public init(from decoder: Decoder) throws {
         // Use and unkeyed container to decode the state-vector array
         var container   = try decoder.unkeyedContainer()
         icao24          = try container.decode(String.self)
@@ -147,7 +147,7 @@ extension OpenSkyService.StateVector: Decodable {
 }
 
 extension OpenSkyService {
-    struct StateVectors: Decodable, Equatable, Hashable {
+    public struct StateVectors: Decodable, Equatable, Hashable {
         let time: UInt  // The time that the state vectors in this response are associated with. Interval is [time-1, time].
         let states: [StateVector]
     }

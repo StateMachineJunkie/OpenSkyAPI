@@ -8,7 +8,7 @@
 import Foundation
 
 extension OpenSkyService {
-    struct Waypoint: Hashable {
+    public struct Waypoint: Hashable {
         let time: UInt          // Seconds since (Unix) epoch
         let latitude: Float?    // WGS-84 latitude in degrees
         let longitude: Float?   // WGS-84 longitude in degrees
@@ -28,7 +28,7 @@ extension OpenSkyService.Waypoint: Codable {
         case isOnGround = "on_ground"
     }
 
-    init(from decoder: Decoder) throws {
+    public init(from decoder: Decoder) throws {
         // Use and unkeyed container to decode the path (waypoint) array
         var container   = try decoder.unkeyedContainer()
         time            = try container.decode(UInt.self)
@@ -41,7 +41,7 @@ extension OpenSkyService.Waypoint: Codable {
 }
 
 extension OpenSkyService {
-    struct Track: Hashable {
+    public struct Track: Hashable {
         let icao24: String      // ICAO 24-Bit address in lower-case hexadecimal
         let startTime: UInt     // Time of the first waypoint in seconds since (Unix) epoch
         let endTime: UInt       // Time of the last waypoint in seconds since (Unix) epoch

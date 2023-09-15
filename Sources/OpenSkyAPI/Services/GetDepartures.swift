@@ -17,12 +17,12 @@ import Foundation
 // - Returns: If successful an array of `Flight` values is returned. This array may be empty if there are none
 //            matching the given parameters.
 // - Note: The interval range must be less than or equal to seven days.
-class GetDepartures: OpenSkyService {
+public class GetDepartures: OpenSkyService {
 
 	private let airport: String
     private let timeInterval: ClosedRange<UInt>
 
-    override var maxTimeInterval: UInt {
+    override public var maxTimeInterval: UInt {
         60 * 60 * 24 * 7    // Override default with a value of 7 days for this interval.
     }
 

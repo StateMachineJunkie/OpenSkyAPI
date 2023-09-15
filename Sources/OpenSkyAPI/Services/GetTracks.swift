@@ -33,7 +33,7 @@ import Foundation
 // - Returns: A `Track` value, if available.
 // - Note: The tracks endpoint is purely **experimental** and can be out-of-order at any time. You can use the
 //         flights endpoint for historical data.
-class GetTracks: OpenSkyService {
+public class GetTracks: OpenSkyService {
 
     private let time: UInt
 	private let transponder: OpenSkyService.ICAO24

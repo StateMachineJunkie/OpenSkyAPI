@@ -20,7 +20,7 @@ import Foundation
 //                          state-vector returned from this invocation.
 //
 // - Returns: A `StateVectors` value, which can be empty if no results were found to match the provided parameters.
-class GetOwnStateVectors: OpenSkyService {
+public class GetOwnStateVectors: OpenSkyService {
 
     private let transponders: [OpenSkyService.ICAO24]
 

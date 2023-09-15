@@ -16,7 +16,7 @@ import Foundation
 //            matching the given parameters.
 // - Note: The transponder array must contain at least one value in order for the service to complete successfully.
 // - Note: The interval range must be less than or equal to thirty days and must be a non-zero value.
-class GetFlights: OpenSkyService {
+public class GetFlights: OpenSkyService {
 
     private let timeInterval: ClosedRange<UInt>
 	private let transponders: [OpenSkyService.ICAO24]

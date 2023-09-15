@@ -21,7 +21,7 @@ import Foundation
 //   - isIncludingCategory: Boolean indicating whether or not the aircraft category should be included with each
 //                          state-vector returned from this invocation.
 // - Returns: A `StateVectors` value, which can be empty if no results were found to match the provided parameters.
-class GetAllStateVectors: OpenSkyService {
+public class GetAllStateVectors: OpenSkyService {
 
     public var area: OpenSkyService.WGS84Area?
     public var isIncludingCategory: Bool = false

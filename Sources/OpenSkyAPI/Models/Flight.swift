@@ -9,7 +9,7 @@ import Foundation
 
 extension OpenSkyService {
 
-    struct Flight: Decodable, Equatable, Hashable {
+    public struct Flight: Decodable, Equatable, Hashable {
         let icao24: String                          // Transponder address
         let firstSeen: UInt                         // Time this flight was first seen in seconds since (Unix) epoch?
         let estDepartureAirport: String?

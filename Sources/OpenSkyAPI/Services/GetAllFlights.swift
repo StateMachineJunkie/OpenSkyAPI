@@ -13,7 +13,7 @@ import Foundation
 // - Returns: If successful an array of `Flight` values is returned. This array may be empty if there are none
 //            matching the given time interval.
 // - Note: The interval range must be less than or equal to two hours.
-class GetAllFlights: OpenSkyService {
+public class GetAllFlights: OpenSkyService {
 
     private let timeInterval: ClosedRange<UInt>
 
