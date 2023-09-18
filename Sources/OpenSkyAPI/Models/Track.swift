@@ -9,12 +9,12 @@ import Foundation
 
 extension OpenSkyService {
     public struct Waypoint: Hashable {
-        let time: UInt          // Seconds since (Unix) epoch
-        let latitude: Float?    // WGS-84 latitude in degrees
-        let longitude: Float?   // WGS-84 longitude in degrees
-        let altitude: Float?    // Barometric altitude in meters
-        let trueTrack: Float?   // Track in decimal degrees clockwise from north (north = 0º)
-        let isOnGround: Bool    // Indicates if the position was retrieved from a surface position report
+        public let time: UInt           // Seconds since (Unix) epoch
+        public let latitude: Float?     // WGS-84 latitude in degrees
+        public let longitude: Float?    // WGS-84 longitude in degrees
+        public let altitude: Float?     // Barometric altitude in meters
+        public let trueTrack: Float?    // Track in decimal degrees clockwise from north (north = 0º)
+        public let isOnGround: Bool     // Indicates if the position was retrieved from a surface position report
     }
 }
 
@@ -42,11 +42,11 @@ extension OpenSkyService.Waypoint: Codable {
 
 extension OpenSkyService {
     public struct Track: Hashable {
-        let icao24: String      // ICAO 24-Bit address in lower-case hexadecimal
-        let startTime: UInt     // Time of the first waypoint in seconds since (Unix) epoch
-        let endTime: UInt       // Time of the last waypoint in seconds since (Unix) epoch
-        let callsign: String?   // Callsign (8 characters) that holds for the whole track.
-        let path: [Waypoint]
+        public let icao24: String       // ICAO 24-Bit address in lower-case hexadecimal
+        public let startTime: UInt      // Time of the first waypoint in seconds since (Unix) epoch
+        public let endTime: UInt        // Time of the last waypoint in seconds since (Unix) epoch
+        public let callsign: String?    // Callsign (8 characters) that holds for the whole track.
+        public let path: [Waypoint]
     }
 }
 

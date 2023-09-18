@@ -28,6 +28,11 @@ public class OpenSkyService: NSObject {
     public struct Authentication: Equatable, Hashable {
         let username: String
         let password: String
+
+        public init(username: String, password: String) {
+            self.username = username
+            self.password = password
+        }
     }
 
     /// Since these appear throughout the API and they have specific characteristics that distinguish them from a
@@ -48,6 +53,13 @@ public class OpenSkyService: NSObject {
         let lomin: Float    // Minimum longitude
         let lamax: Float    // Maximum latitude
         let lomax: Float    // Maximum longitude
+
+        public init(lamin: Float, lomin: Float, lamax: Float, lomax: Float) {
+            self.lamin = lamin
+            self.lomin = lomin
+            self.lamax = lamax
+            self.lomax = lomax
+        }
     }
 
     internal static let apiBaseURL: URL = {

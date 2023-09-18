@@ -10,14 +10,14 @@ import Foundation
 extension OpenSkyService {
 
     public struct StateVector: Hashable {
-        enum PositionSource: Int, Codable {
+        public enum PositionSource: Int, Codable {
             case adsb       = 0     // ADS-B
             case asterix    = 1     // ASTERIX
             case mlat       = 2     // MLAT
             case flarm      = 3     // FLARM
         }
 
-        enum AircraftCategory: Int, Codable {
+        public enum AircraftCategory: Int, Codable {
             case noInformation      = 0     // No information at all
             case noADSBCategoryInfo = 1     // No ADS-B emitter category info
             case light              = 2     // Is less than 15500 lbs
@@ -41,26 +41,26 @@ extension OpenSkyService {
             case lineObstacle       = 20    // Line Obstacle
         }
 
-        let icao24: String          // Transponder address in hexadecimal string representation
-        let callsign: String?       // Callsign of the vehicle (8 characters); null if no callsign received
-        let originCountry: String   // Country name inferred from the ICAO
-        let timePosition: UInt?     // Unix timestamp (seconds) for the last position update
-        let lastContact: UInt       // Unix timestamp (seconds) for the last update in general
-        let longitude: Float?       // WGS-84 longitude in decimal degrees
-        let latitude: Float?        // WGS-84 latitude in decimal degrees
-        let altitude: Float?        // Barometric altitude in meters
-        let isOnGround: Bool        // Indicates if the position was retrieved from a surface position report
-        let velocity: Float?        // Velocity over ground in meters/second
-        let trueTrack: Float?       // Track in decimal degrees clockwise from north (north = 0º)
-        let verticalRate: Float?    // Vertical rate in meters/second. A positive/negative indicates climb/descend
-        let sensors: [Int]?         // IDSs of the receivers which contributed to this state vector
-        let geoAltitude: Float?     // Geometric altitude in meters.
-        let squawk: String?         // The transponder code
-        let isSPI: Bool             // Whether flight status indicates Special Purpose Indicator
-        let positionSource: PositionSource
-        let category: AircraftCategory?
+        public let icao24: String           // Transponder address in hexadecimal string representation
+        public let callsign: String?        // Callsign of the vehicle (8 characters); null if no callsign received
+        public let originCountry: String    // Country name inferred from the ICAO
+        public let timePosition: UInt?      // Unix timestamp (seconds) for the last position update
+        public let lastContact: UInt        // Unix timestamp (seconds) for the last update in general
+        public let longitude: Float?        // WGS-84 longitude in decimal degrees
+        public let latitude: Float?         // WGS-84 latitude in decimal degrees
+        public let altitude: Float?         // Barometric altitude in meters
+        public let isOnGround: Bool         // Indicates if the position was retrieved from a surface position report
+        public let velocity: Float?         // Velocity over ground in meters/second
+        public let trueTrack: Float?        // Track in decimal degrees clockwise from north (north = 0º); 90º out of phase with iOS
+        public let verticalRate: Float?     // Vertical rate in meters/second. A positive/negative indicates climb/descend
+        public let sensors: [Int]?          // IDSs of the receivers which contributed to this state vector
+        public let geoAltitude: Float?      // Geometric altitude in meters.
+        public let squawk: String?          // The transponder code
+        public let isSPI: Bool              // Whether flight status indicates Special Purpose Indicator
+        public let positionSource: PositionSource
+        public let category: AircraftCategory?
 
-        init(icao24: String,
+        public init(icao24: String,
              callsign: String? = nil,
              originCountry: String,
              timePosition: UInt? = nil,
@@ -148,12 +148,18 @@ extension OpenSkyService.StateVector: Decodable {
 
 extension OpenSkyService {
     public struct StateVectors: Decodable, Equatable, Hashable {
-        let time: UInt  // The time that the state vectors in this response are associated with. Interval is [time-1, time].
-        let states: [StateVector]
+        public let time: UInt  // The time that the state vectors in this response are associated with. Interval is [time-1, time].
+        public let states: [StateVector]
+
+        public var isEmpty: Bool {
+            return self == Self.empty
+        }
 
         public init(time: UInt, states: [StateVector]) {
             self.time = time
             self.states = states
         }
+
+        static public let empty =  OpenSkyService.StateVectors(time: 0, states: [])
     }
 }
