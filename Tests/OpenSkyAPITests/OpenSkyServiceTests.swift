@@ -20,6 +20,9 @@ final class OpenSkyServiceTests: XCTestCase {
     //       implementation and XCTest runtimes. If you run both suites individually, they should both pass.
 
     private let auth: OpenSkyService.Authentication? = {
+        #if TESTING
+        #error("You need to add your own username and password in order for these tests to succeed.")
+        #endif
         return OpenSkyService.Authentication(username: "your-username", password: "your-password")
     }()
 
@@ -75,15 +78,32 @@ final class OpenSkyServiceTests: XCTestCase {
         flightService.authentication = auth
         let flights = try await flightService.invoke()
 
-        // Of the results select and track the one that most recently took off.
+        // Of the results select and track at least one of them starting with the one that most recently took off.
         XCTAssert(flights.count > 0)    // No flights anywhere in the world for the last hour would be unusual.
 
-        let sortedFlights = flights.sorted { $0.firstSeen < $1.lastSeen }
-        let flight = sortedFlights.last!
+        let sortedFlights = flights.sorted { $0.firstSeen > $1.lastSeen }
 
-        let trackService = try GetTracks(for: OpenSkyService.ICAO24(icao24String: flight.icao24)!)
-        trackService.authentication = auth
-        let track = try await trackService.invoke()
-        print(track)
+        for flight in sortedFlights {
+            do {
+                let trackService = try GetTracks(for: OpenSkyService.ICAO24(icao24String: flight.icao24)!)
+                trackService.authentication = auth
+                let track = try await trackService.invoke()
+                print(track)
+                return
+            } catch let error {
+                if case let OpenSkyService.Error.httpClientError(httpStatus) = error {
+                    // If we get something besides 404-Not Found, throw it and fail the test. Otherwise, try the next
+                    // flight until we've tried them all.
+                    if httpStatus != 404 {
+                        throw error
+                    } else {
+                        continue
+                    }
+                }
+            }
+        }
+
+        // If we iterate through all of the flights without finding a single one that we can track, throw 404-Not Found.
+        throw OpenSkyService.Error.httpClientError(404)
     }
 }
