@@ -3,12 +3,12 @@ Swift wrapper for the OpenSky Network API
 
 I'm working on an internal flight-tracking project and I needed access to a couple of existing public network API sets in order to source the data for my app. This is the first of two. It provides the methods I need to access flight information for a given area and zero in on a given flight for detailed tracking.
 
-This project demonstrates a few of useful features or facilities that I've never used before.
+This project demonstrates a few useful features or facilities that are relatively new or new to me.
 
-1. Swift package resources
-2. Swift package unit-tests
-3. Usage of `URLProtocol` in order to return mock data
-4. Swift Concurrency based API wrappers
+* [Swift Package Resource Bundling](https://developer.apple.com/documentation/xcode/bundling-resources-with-a-swift-package)
+* [Unit-tests](https://developer.apple.com/documentation/xctest) as part of a [Swift Package](https://developer.apple.com/documentation/xcode/swift-packages)
+* Usage of [URLProtocol](https://developer.apple.com/documentation/foundation/urlprotocol) in order to return mock data during testing.
+* API wrappers implemented using [Concurrency](https://developer.apple.com/documentation/swift/concurrency) instead of [Combine](https://developer.apple.com/documentation/combine) or [Closures](https://docs.swift.org/swift-book/documentation/the-swift-programming-language/closures/).
 
 ## OpenSky Network API Docs
 [The documentation I followed in order to write this wrapper is found here.](https://openskynetwork.github.io/opensky-api/index.html)
@@ -16,7 +16,7 @@ This project demonstrates a few of useful features or facilities that I've never
 ## General Implementation Notes
 There is nothing new or fancy about the wrappers themselves. I'm using `Codable` to define and interpret the data coming from the OpenSky Network API (ONA). Previous wrappers that I've created in the past for other APIs provide interfaces implemented using closures or Combine publishers. This time I decided to use the `async` interface vended from `URLSession` as part of Swift Concurrency.
 
-Instead of having a single API object, which is what I did last time, this time I decided to use a service based approach. Thus, making each individual API endpoint vended from ONA, a separate class with a common base implementation, as shown in the diagram below.
+Instead of having a single API object, which is what I did last time, this time I decided to use a service based approach. Thus, making each individual API endpoint vended from ONA a separate class with a common base implementation, as shown in the diagram below.
 
 ```mermaid
 classDiagram
